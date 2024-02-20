@@ -1,6 +1,3 @@
-# LaMiniLLMSummarization
-Documents Summarization APP using LaMini LLM from MBZUAI
-
 # LLM Project
 <h2 align="center">
 Documents Summarization APP using LaMini LLM from MBZUAI<br/>
