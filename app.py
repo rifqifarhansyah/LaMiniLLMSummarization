@@ -10,7 +10,7 @@ import base64
 # MODEL AND TOKENIZER
 checkpoint = "LaMiniFlan-T5-248M"
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
-base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, device_map = 'auto', torch_dtype = torch.float32)
+base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, device_map='auto', offload_folder='offload', torch_dtype=torch.float32)
 
 # FILE LOADER AND PREPROCESSING
 def file_preprocessing(file):
@@ -57,12 +57,16 @@ def main():
     if uploaded_file is not None:
         if st.button("Summarize"):
             col1, col2 = st.columns(2)
-            
+            filepath = "data/" + uploaded_file.name
+            with open(filepath, 'wb') as temp_file:
+                temp_file.write(uploaded_file.read())
             with col1:
                 st.info("Uploaded PDF File")
-                
+                pdf_viewer = displayPDF(filepath)
             with col2:
                 st.info("Summarization is below")
+                summary = llm_pipeline(filepath)
+                st.success(summary)
 
 
 if __name__ == '__main__':
